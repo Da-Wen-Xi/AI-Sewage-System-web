@@ -1,0 +1,270 @@
+<template>
+  <div class="login-container" style="background-image:url('http://182.254.148.104:8083/pic/bg1.jpg'); background-repeat: no-repeat;background-size: 100% 100%;"  >
+    <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left"
+             label-width="0px"
+             class="card-box login-form">
+      <h3 class="title">智慧水务</h3>
+      <el-form-item prop="username">
+        <el-input v-model="loginForm.username" placeholder="请输入用户名" autoComplete="on" />
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input v-model="loginForm.password" type="password" placeholder="请输入密码"
+                  show-password autoComplete="on" clearable></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
+          登录
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+
+</template>
+
+<script>
+  export default {
+    name: 'log',
+    data () {
+      return {
+        loginForm: {
+          username: '',
+          password: ''
+        },
+        loginRules: {
+          username: [{required: true, trigger: 'blur', message: '请输入用户名'}],
+          password: [{required: true, trigger: 'blur', message: '请输入密码'}]
+        },
+        loading: false,
+        redirect: undefined
+      }
+    },
+    methods: {
+      handleLogin () {
+        this.$refs.loginForm.validate(valid => {
+          if (valid) {
+            this.loading = true
+            this.$http.post('http://182.254.148.104:8082/login/auth', {
+              'data': this.loginForm
+            }).then(data => {
+              console.log('============返回用户信息'+data)
+              let userJson = JSON.parse(JSON.stringify(data))['data']
+              console.log(userJson)
+              if (userJson['status'] === 'success' && userJson['deleteStatus'] === 0) {
+                this.$store.dispatch('setShiroToken', userJson);
+                this.$store
+                  .dispatch("user/login", this.loginForm)
+                  .then((res) => {
+                    this.runFBoxAccount()
+                    console.log(res,'---res')
+                    this.redirect = '/show/index'
+                    this.$store.commit("user/SAVE_USERINFO", this.loginForm);
+                    console.log(this.redirect)
+                    window.loginInfo = this.loginForm
+                    this.$router.push({
+                      path: this.redirect || "/",
+                      query: this.otherQuery
+                    });
+                    this.loading = false;
+                  })
+
+              } else if (userJson['deleteStatus'] === 1) {
+                this.loading = false
+                this.$message.error('账号被冻结')
+              } else {
+                this.loading = false
+                this.$message.error('账号/密码错误')
+              }
+            }).catch(() => {
+              this.loading = false
+              this.$message.error('登陆服务器异常')
+              this.loading = false
+            })
+          } else {
+            this.loading = false
+            this.$message.error('登录信息不完整')
+            return false
+          }
+        })
+      },
+      runFBoxAccount () {
+        this.$http.post('http://182.254.148.104:8082/equip/equipLogin', null, {
+          headers: {
+            'Authorization': this.$store.state.ShiroToken.token
+          }
+        }).then(response => {
+          window.jsonobj = JSON.parse(JSON.stringify(response))['data']
+          console.log('access_token: ' + window.jsonobj['access_token'])
+          console.log('refresh_token: ' + window.jsonobj['refresh_token'])
+          this.runEquipment()
+        }).catch(function (error) {
+          this.loading = false
+          console.log(error)
+        })
+      },
+      runEquipment () {
+        this.$http.get('http://182.254.148.104:8082/equip/getEquipments', {
+          params: {
+            Authorization: 'Bearer ' + window.jsonobj['access_token'],
+            XFBoxClientId: 'zzy_test'
+          },
+          headers: {
+            'Authorization': this.$store.state.ShiroToken.token
+          }
+        }).then(response => {
+          this.loading = false
+          // 解析请求到的设备数据
+          window.equipmentobj = JSON.parse(JSON.stringify(response))['data']
+          window.equipmentobjarray = getArray(window.equipmentobj)
+          // 2020.12.7 FBox改了数据请求接口 需要重新请求设备经纬度
+          this.updateEquipArrayWithPos('Bearer ' + window.jsonobj['access_token'], 'zzy_test', window.equipmentobjarray)
+        }).catch(function (error) {
+          this.loading = false
+          console.log(error)
+        })
+      },
+      gotoIndex () {
+        //this.$router.push({ path:  "/show/index" });
+      },
+      updateEquipArrayWithPos (authorization, clientID, equipArray) {
+        let boxIdList = []
+        for (let i = 0; i < equipArray.length; i++) {
+          boxIdList.push(equipArray[i]['box']['id'])
+        }
+        this.$http.post('http://fbox360.com/api/client/v2/box/location',
+          {'ids': boxIdList},
+          {headers: {'Authorization': authorization, 'X-FBox-ClientId': clientID}
+          }).then(res => {
+          let posList = res.data
+          for (let i = 0; i < posList.length; i++) {
+            for (let j = 0; j < equipArray.length; j++) {
+              if (posList[i]['boxId'] === equipArray[j]['box']['id']) {
+                equipArray[j]['box']['latitude'] = posList[i]['latitude']
+                equipArray[j]['box']['longitude'] = posList[i]['longitude']
+                equipArray[j]['box']['useLatitude'] = posList[i]['useLatitude']
+                equipArray[j]['box']['useLongitude'] = posList[i]['useLongitude']
+                equipArray[j]['box']['address'] = posList[i]['address']
+              }
+            }
+          }
+          window.equipmentobjarray = equipArray
+          console.log('====equipmentobjarray:')
+          console.log(window.equipmentobjarray)
+          this.gotoIndex()
+        })
+      }
+    }
+  }
+  function getArray (arrayObj) {
+    let array = []
+    for (let i = 0; i < arrayObj.length; i++) {
+      array = array.concat(arrayObj[i]['boxRegs'])
+    }
+    return array
+  }
+</script>
+<style rel="stylesheet/scss" lang="scss">
+  // import "../../styles/mixin.scss";
+  $bg: #2d3a4b;
+  $dark_gray: #889aa4;
+  $light_gray: #eee;
+
+  .login-container {
+    include :relative;
+    height: 100vh;
+    background-color: transparent;
+    input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0px 1000px #293444 inset !important;
+      -webkit-text-fill-color: #fff !important;
+    }
+    input {
+      background: transparent;
+      border: 0px;
+      -webkit-appearance: none;
+      border-radius: 0px;
+      padding: 12px 5px 12px 15px;
+      color: $light_gray;
+      height: 47px;
+    }
+    .el-input {
+      display: inline-block;
+      height: 47px;
+      width: 85%;
+    }
+    .tips {
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    .svg-container {
+      padding: 6px 5px 6px 15px;
+      color: $dark_gray;
+      vertical-align: middle;
+      width: 30px;
+      display: inline-block;
+      &_login {
+        font-size: 20px;
+      }
+    }
+    .title {
+      font-size: 26px;
+      color: $light_gray;
+      margin: 0px auto 40px auto;
+      text-align: center;
+      font-weight: bold;
+    }
+    .login-form {
+      position: absolute;
+      left: 0;
+      right: 0;
+      width: 400px;
+      padding: 35px 35px 15px 35px;
+      background-color: #60626680;
+      border-radius:5px;
+      margin: 200px auto;
+    }
+    .el-form-item {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+      color: #454545;
+    }
+    .show-pwd {
+      position: absolute;
+      right: 10px;
+      top: 7px;
+      font-size: 16px;
+      color: $dark_gray;
+      cursor: pointer;
+    }
+    .thirdparty-button {
+      position: absolute;
+      right: 35px;
+      bottom: 28px;
+    }
+  }
+  .el-input__inner {
+    &::placeholder {
+      color: white;
+    }
+
+    &::-webkit-input-placeholder {
+      /* WebKit browsers 适配谷歌 */
+      color: white;
+    }
+
+    &:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 适配火狐 */
+      color: white;
+    }
+
+    &::-moz-placeholder {
+      /* Mozilla Firefox 19+ 适配火狐 */
+      color: white;
+    }
+
+    &:-ms-input-placeholder {
+      /* Internet Explorer 10+  适配ie*/
+      color: white;
+    }
+  }
+</style>
