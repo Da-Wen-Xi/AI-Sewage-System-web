@@ -51,6 +51,7 @@
               console.log(userJson)
               if (userJson['status'] === 'success' && userJson['deleteStatus'] === 0) {
                 this.$store.dispatch('setShiroToken', userJson);
+                window.localStorage.setItem('userInfo', JSON.stringify(userJson));
                 this.$store
                   .dispatch("user/login", this.loginForm)
                   .then((res) => {
@@ -93,6 +94,8 @@
           }
         }).then(response => {
           window.jsonobj = JSON.parse(JSON.stringify(response))['data']
+          // zzy 2021.05.13: 添加index缓存数据
+          window.localStorage.setItem("authorization", window.jsonobj['access_token'])
           console.log('access_token: ' + window.jsonobj['access_token'])
           console.log('refresh_token: ' + window.jsonobj['refresh_token'])
           this.runEquipment()

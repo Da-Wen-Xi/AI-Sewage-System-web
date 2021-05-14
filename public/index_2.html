@@ -295,7 +295,6 @@
 
   }
 
-
   /**
    * @desc
    * 第一次页面加载渲染
@@ -305,7 +304,7 @@
     console.log(window.parent.markArray)
     console.log(window.parent.siteInfo)
     drawMap(window.parent.markArray, longitude, latitude)
-    if (window.parent.siteInfo){
+    if (window.parent.siteInfo) {
       getSiteInfo(window.parent.siteInfo)
       console.log('非第一次加载时站点信息')
     }
@@ -391,7 +390,7 @@
       //   var marker = new T.Marker(new T.LngLat(imarkArray[i]['latitude'], imarkArray[i]['longitude']))  // 创建标注
       //   // var content = data_info[i][2];
       //   map.addOverLay(marker)               // 将标注添加到地图中
-        // addClickHandler(content,marker);
+      // addClickHandler(content,marker);
       // }
     })
     // var data_info = [[116.417854,39.921988,"地址：北京市东城区王府井大街88号乐天银泰百货八层"],
@@ -422,8 +421,9 @@
      * */
   }
 </script>
+
 <body onload="onLoad()">
-<div class="main">
+<div class="main" id="app">
   <div class="nav">云南中贸智慧水务云服务平台</div>
   <div class="nav_btn">
     <div class="btn_left">
@@ -451,12 +451,12 @@
           <img src="./img/left.png" class="first_border" alt="">
           <div class="firstBox">
             <div class="pic">
-              <img src="img/site1.png" class="first_top1" alt="">
-              <img src="img/site2.png" class="first_top2" alt="">
+              <img src="img/room1.jpg" class="first_top1" alt="">
+              <img src="img/room2.jpg" class="first_top2" alt="">
             </div>
             <div class="picText">
-              <span>站点环境</span>
-              <span class="text_second">站点环境</span>
+              <span>站点展示</span>
+              <span class="text_second">设备展示</span>
             </div>
             <div class="about_illness">
               <div class="symptom">
@@ -496,266 +496,269 @@
       <!-- 左侧下部 -->
       <div class="baseBox centerMainBox2" style="height:30%;">
         <img src="./img/down.png" class="first_border" alt="">
-        <
-        <div class="boxTitle2" style="width:26%;">气象信息</div>
-        <!--                    <div class="boxTitle2" style="width:26%;margin-left:22vw;margin-top: -1.4vw;">灌溉数据</div>-->
-        <!--                    <div class="boxTitle2" style="width:26%;margin-left:53vw;margin-top: -2.0vw;">气象信息</div>-->
-        <div class="leftBottom">
-          <!--                        <div class="land_data">-->
-          <!--                            <p>当前库容: 1100万立方米</p>-->
-          <!--                            <p>当前水位: 1200m</p>-->
-          <!--                            <p>河道流量: 60m³/s</p>-->
-          <!--                        </div>-->
+        <div id="control" class="boxTitle2" style="width:26%; padding-top: 4px">设备控制</div>
+        <div id="control-list">
+          <ul>
+            <li>
+              <div>
+                <div id="statistic-chart" style="height: 218px; width: 350px">
 
-        </div>
-        <div class="right_box">
-          <!--                        <div class="grow_data">-->
-          <!--                            <img src="img/tree_pic.png" alt="">-->
-          <!--                            <p>当前灌溉水量：200立方米</p>-->
-          <!--                            <p>黏土</p>-->
-          <!--                            <p>土壤环境：优秀</p>-->
-          <!--                            <span>未来5天降水量：0mm</span>-->
-          <!--                            <i></i>-->
-          <!--                            <div class="specialistSuggest">-->
-          <!--                                <div>灌溉计划：</div>-->
-          <!--                                <div>增加灌溉放水量</div>-->
-          <!--                            </div>-->
-          <!--                            <div class="fertilizationSuggest">-->
-          <!--                                <div>详细说明：</div>-->
-          <!--                                <div>每三天进行一次放水</div>-->
-          <!--                            </div>-->
-          <!--                        </div>-->
-          <div class="weather_data">
-            <div class="weather_text text_one">
-              <span>温度：19℃</span>
-              <span>湿度：52%</span>
-              <span>风向：东南风</span>
-              <span>风速：2m/s</span>
-            </div>
-            <div class="weather_text text_two">
-              <span>降雨量：0mm</span>
-              <span>蒸发量：0.326mm/h</span>
-              <span>气压：0.326MPa</span>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-
-
-    </div>
-    <div class="leftBox right" style="width:22%">
-      <div class="baseBox baseBox1" style="margin-bottom:15px;height:40%">
-        <img src="./img/right.png" class="hardware" alt="">
-        <div class="csbaseBox1">
-          <div class="boxTitle">设备监控</div>
-          <ul class="boxLis">
-            <li class="left active">设备监控 1</li>
-            <!--                            <li class="left">入水监控 2</li>-->
-            <!--                            <li class="left">出水监控 1</li>-->
-            <!--                            <li class="left">出水监控 2</li>-->
-          </ul>
-          <div class="content1">
-            <ul>
-              <li style="display: block;" class="contList">
-                <!-- 四个角描边 stat -->
-                <div class="leftTopLine1"></div>
-                <div class="leftTopLine2"></div>
-                <div class="rightTopLine1"></div>
-                <div class="rightTopLine2"></div>
-                <div class="leftBottomLine1"></div>
-                <div class="leftBottomLine2"></div>
-                <div class="rightBottomLine1"></div>
-                <div class="rightBottomLine2"></div>
-
-                <div class="monitor_video">
-                  <!-- 接入监控视频 -->
-                  <div class="monitor" id="monitor"></div>
                 </div>
-              </li>
-            </ul>
-
-          </div>
-          <div class="liSpan">操作</div>
-          <p class="liP">
-            <button class="operateBtn" id="start_monitor">播放</button>
-            <button class="operateBtn" id="show_large_monitor">放大</button>
-            <button class="operateBtn" id="hide_large_monitor">缩小</button>
-            <button class="operateBtn" id="stop_monitor">结束</button>
-          </p>
+              </div>
+            </li>
+            <li>
+              <div class="img-box">
+                <img src="img/air_pump.jpg" alt="">
+              </div>
+              <div class="state">
+                <div>
+                  <span>1#变频风机</span>
+                  <button class="operateBtn equip-start">启动</button>
+                  <button class="operateBtn equip-stop">停止</button>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="img-box">
+                <img src="img/water_pump1.jpg" alt="">
+              </div>
+              <div class="state">
+                <div>
+                  <span>1#变频水泵</span>
+                  <button class="operateBtn equip-start">启动</button>
+                  <button class="operateBtn equip-stop">停止</button>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="img-box">
+                <img src="img/water_pump2.jpg" alt="">
+              </div>
+              <div class="state">
+                <div>
+                  <span>1#工频水泵</span>
+                  <button class="operateBtn equip-start">启动</button>
+                  <button class="operateBtn equip-stop">停止</button>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="baseBox baseBox2" style="margin-bottom:15px;height:29.5%">
-        <img src="./img/right2.png" alt="">
-        <!-- 四个角描边 end -->
-        <div class="boxTitle2">当前电池信息</div>
-        <div class="irrigate_data">
-          <div class="irrigate_top">
-            <!--电池电量-->
-            <div>
-              <div class="batteryChart" id="batteryChart"
-                   style="height: 210px; width: 290px; margin-left: -5%;margin-top: 5%"></div>
+    </div>
+
+      <div class="leftBox right" style="width:22%">
+        <div class="baseBox baseBox1" style="margin-bottom:15px;height:40%">
+          <img src="./img/right.png" class="hardware" alt="">
+          <div class="csbaseBox1">
+            <div class="boxTitle">设备监控</div>
+            <ul class="boxLis">
+              <li class="left active">设备监控 1</li>
+              <!--                            <li class="left">入水监控 2</li>-->
+              <!--                            <li class="left">出水监控 1</li>-->
+              <!--                            <li class="left">出水监控 2</li>-->
+            </ul>
+            <div class="content1">
+              <ul>
+                <li style="display: block;" class="contList">
+                  <!-- 四个角描边 stat -->
+                  <div class="leftTopLine1"></div>
+                  <div class="leftTopLine2"></div>
+                  <div class="rightTopLine1"></div>
+                  <div class="rightTopLine2"></div>
+                  <div class="leftBottomLine1"></div>
+                  <div class="leftBottomLine2"></div>
+                  <div class="rightBottomLine1"></div>
+                  <div class="rightBottomLine2"></div>
+
+                  <div class="monitor_video">
+                    <!-- 接入监控视频 -->
+                    <div class="monitor" id="monitor"></div>
+                  </div>
+                </li>
+              </ul>
+
+            </div>
+            <div class="liSpan">操作</div>
+            <p class="liP">
+              <button class="operateBtn" id="start_monitor">播放</button>
+              <button class="operateBtn" id="show_large_monitor">放大</button>
+              <button class="operateBtn" id="hide_large_monitor">缩小</button>
+              <button class="operateBtn" id="stop_monitor">结束</button>
+            </p>
+          </div>
+        </div>
+        <div class="baseBox baseBox2" style="margin-bottom:15px;height:29.5%">
+          <img src="./img/right2.png" alt="">
+          <!-- 四个角描边 end -->
+          <div class="boxTitle2">当前电池信息</div>
+          <div class="irrigate_data">
+            <div class="irrigate_top">
+              <!--电池电量-->
+              <div>
+                <div class="batteryChart" id="batteryChart"
+                     style="height: 210px; width: 290px;margin-left: 8%; margin-top: 5%"
+                ></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="baseBox baseBox3" style="height:28%">
-        <img src="./img/right3.png" alt="">
-        <!-- 四个角描边 end -->
-        <div class="boxTitle2">数据日志</div>
-        <!-- <div class="data_day" id="demo" > -->
-        <div class="data_day" id="demo" style="width:100%;overflow:hidden;height: 75%;">
-          <table style="text-align: left;margin-left:10%;height:80%;">
-            <tbody id="demo1">
-            <!-- <tr class="head">
-                <td>编号</td>
-                <td>数据类型</td>
-                <td>数据值</td>
-                <td>时间</td>
-            </tr> -->
-            <tr>
-              <td>u78</td>
-              <td>流量数据</td>
-              <td>163.28</td>
-              <td>2020年12月20日</td>
-            </tr>
+        <div class="baseBox baseBox3" style="height:28%">
+          <img src="./img/right3.png" alt="">
+          <!-- 四个角描边 end -->
+          <div class="boxTitle2">数据日志</div>
+          <!-- <div class="data_day" id="demo" > -->
+          <div class="data_day" id="demo" style="width:100%;overflow:hidden;height: 75%;">
+            <table style="text-align: left;margin-left:10%;height:80%;">
+              <tbody id="demo1">
+              <!-- <tr class="head">
+                  <td>编号</td>
+                  <td>数据类型</td>
+                  <td>数据值</td>
+                  <td>时间</td>
+              </tr> -->
+              <tr>
+                <td>u78</td>
+                <td>流量数据</td>
+                <td>163.28</td>
+                <td>2020年12月20日</td>
+              </tr>
 
-            <tr>
-              <td>006</td>
-              <td>水量数据</td>
-              <td>130.67</td>
-              <td>2020年12月21日</td>
-            </tr>
+              <tr>
+                <td>006</td>
+                <td>水量数据</td>
+                <td>130.67</td>
+                <td>2020年12月21日</td>
+              </tr>
 
-            <tr>
-              <td>s07</td>
-              <td>天气数据</td>
-              <td>163.28</td>
-              <td>2020年12月22日</td>
-            </tr>
-            <tr>
-              <td>872</td>
-              <td>监视器数据</td>
-              <td>130.67</td>
-              <td>2020年12月23日</td>
-            </tr>
-            <tr>
-              <td>d59</td>
-              <td>土壤仪数据</td>
-              <td>163.28</td>
-              <td>2020年12月24日</td>
-            </tr>
+              <tr>
+                <td>s07</td>
+                <td>天气数据</td>
+                <td>163.28</td>
+                <td>2020年12月22日</td>
+              </tr>
+              <tr>
+                <td>872</td>
+                <td>监视器数据</td>
+                <td>130.67</td>
+                <td>2020年12月23日</td>
+              </tr>
+              <tr>
+                <td>d59</td>
+                <td>土壤仪数据</td>
+                <td>163.28</td>
+                <td>2020年12月24日</td>
+              </tr>
 
-            <tr>
-              <td>299</td>
-              <td>灌溉阀数据</td>
-              <td>130.67</td>
-              <td>2020年12月24日</td>
-            </tr>
-            <tr>
-              <td>256</td>
-              <td>传感器数据</td>
-              <td>163.28</td>
-              <td>2020年12月23日</td>
-            </tr>
-            <tr>
-              <td>026</td>
-              <td>环境数据</td>
-              <td>130.67</td>
-              <td>2020年12月22日</td>
-            </tr>
-            <tr>
-              <td>037</td>
-              <td>传感器数据</td>
-              <td>163.28</td>
-              <td>2020年12月25日</td>
-            </tr>
-            </tbody>
-            <tbody id="demo2" style="text-align: left;margin-left:10%"></tbody>
-          </table>
+              <tr>
+                <td>299</td>
+                <td>灌溉阀数据</td>
+                <td>130.67</td>
+                <td>2020年12月24日</td>
+              </tr>
+              <tr>
+                <td>256</td>
+                <td>传感器数据</td>
+                <td>163.28</td>
+                <td>2020年12月23日</td>
+              </tr>
+              <tr>
+                <td>026</td>
+                <td>环境数据</td>
+                <td>130.67</td>
+                <td>2020年12月22日</td>
+              </tr>
+              <tr>
+                <td>037</td>
+                <td>传感器数据</td>
+                <td>163.28</td>
+                <td>2020年12月25日</td>
+              </tr>
+              </tbody>
+              <tbody id="demo2" style="text-align: left;margin-left:10%"></tbody>
+            </table>
+          </div>
         </div>
       </div>
+      <div id="largeMonitor" hidden style="z-index: 99999">
+        <div id="largeMonitorOperate">
+          <button class="operateBtn moveBtn">上</button>
+          <button class="operateBtn moveBtn">下</button>
+          <button class="operateBtn moveBtn">左</button>
+          <button class="operateBtn moveBtn">右</button>
+        </div>
+        <div id="largeMonitorVideo"></div>
+      </div>
+    <div id="site-list" hidden>
+      <ul>
+        <li>
+          <div class="hd img-box">
+            <img src="img/1.jpg" alt="">
+          </div>
+          <div class="td">
+            <div>
+              <span>白河水库</span>
+              <button class="operateBtn">切换</button>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="hd img-box">
+            <img src="img/2.jpg" alt="">
+          </div>
+          <div class="td">
+            <div>
+              <span>台家山水库</span>
+              <button class="operateBtn">切换</button>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="hd img-box">
+            <img src="img/3.jpg" alt="">
+          </div>
+          <div class="td">
+            <div>
+              <span>杨柳坝水库</span>
+              <button class="operateBtn">切换</button>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="hd img-box">
+            <img src="img/4.jpg" alt="">
+          </div>
+          <div class="td">
+            <div>
+              <span>核桃冲水库</span>
+              <button class="operateBtn">切换</button>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="hd img-box">
+            <img src="img/5.jpg" alt="">
+          </div>
+          <div class="td">
+            <div>
+              <span>石河水库</span>
+              <button class="operateBtn">切换</button>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="hd img-box">
+            <img src="img/6.jpg" alt="">
+          </div>
+          <div class="td">
+            <div>
+              <span>龙潭水库</span>
+              <button class="operateBtn">切换</button>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
-    <div id="largeMonitor" hidden>
-      <div id="largeMonitorOperate">
-        <button class="operateBtn moveBtn">上</button>
-        <button class="operateBtn moveBtn">下</button>
-        <button class="operateBtn moveBtn">左</button>
-        <button class="operateBtn moveBtn">右</button>
-      </div>
-      <div id="largeMonitorVideo"></div>
-    </div>
-  </div>
-  <div id="site-list" hidden>
-    <ul>
-      <li>
-        <div class="hd img-box">
-          <img src="img/1.jpg" alt="">
-        </div>
-        <div class="td">
-          <div>
-            <span>白河水库</span>
-            <button class="operateBtn">切换</button>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="hd img-box">
-          <img src="img/2.jpg" alt="">
-        </div>
-        <div class="td">
-          <div>
-            <span>台家山水库</span>
-            <button class="operateBtn">切换</button>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="hd img-box">
-          <img src="img/3.jpg" alt="">
-        </div>
-        <div class="td">
-          <div>
-            <span>杨柳坝水库</span>
-            <button class="operateBtn">切换</button>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="hd img-box">
-          <img src="img/4.jpg" alt="">
-        </div>
-        <div class="td">
-          <div>
-            <span>核桃冲水库</span>
-            <button class="operateBtn">切换</button>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="hd img-box">
-          <img src="img/5.jpg" alt="">
-        </div>
-        <div class="td">
-          <div>
-            <span>石河水库</span>
-            <button class="operateBtn">切换</button>
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="hd img-box">
-          <img src="img/6.jpg" alt="">
-        </div>
-        <div class="td">
-          <div>
-            <span>龙潭水库</span>
-            <button class="operateBtn">切换</button>
-          </div>
-        </div>
-      </li>
-    </ul>
   </div>
 </div>
 </body>
@@ -1209,5 +1212,231 @@
   myChart.setOption(option)
 </script>
 
+<script type="text/javascript">
+  var dom = document.getElementById("statistic-chart");
+  var myChart = echarts.init(dom);
+  var app = {};
+  var option;
+  let timeLine = [];
+  let waterTempList = [];
+  let phList = [];
+  let turbidityList = [];
+  let waterLevelList = [];
+  let oxygenList = [];
+
+  option = {
+    title: {
+      text: '实时数据',
+      textStyle: {
+        color: '#ffffff'
+      }
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        label: {
+          backgroundColor: '#6a7985'
+        }
+      }
+    },
+    legend: {
+      show: false,
+      // data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
+    },
+    // toolbox: {
+    //   feature: {
+    //     saveAsImage: {}
+    //   }
+    // },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: false,
+        // 时间线
+        data: timeLine,
+        axisLabel: {
+          show: true,
+          textStyle: {
+            color: '#ffffff'
+          }
+        }
+      }
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        axisLabel: {
+          show: true,
+          textStyle: {
+            color: '#ffffff'
+          }
+        }
+      }
+    ],
+    series: [
+      {
+        name: '水温',
+        type: 'line',
+        // stack: '总量',
+        areaStyle: {},
+        emphasis: {
+          focus: 'series'
+        },
+        data: waterTempList
+      },
+      {
+        name: 'PH值',
+        type: 'line',
+        // stack: '总量',
+        areaStyle: {},
+        emphasis: {
+          focus: 'series'
+        },
+        data: phList
+      },
+      {
+        name: '浊度值',
+        type: 'line',
+        // stack: '总量',
+        label: {
+          show: true,
+          position: 'top'
+        },
+        areaStyle: {},
+        emphasis: {
+          focus: 'series'
+        },
+        data: turbidityList
+      },
+      {
+        name: '水箱水位',
+        type: 'line',
+        // stack: '总量',
+        areaStyle: {},
+        emphasis: {
+          focus: 'series'
+        },
+        data: waterLevelList
+      },
+      {
+        name: '溶解氧值',
+        type: 'line',
+        // stack: '总量',
+        areaStyle: {},
+        emphasis: {
+          focus: 'series'
+        },
+        data: oxygenList
+      }
+    ]
+  };
+
+  if (option && typeof option === 'object') {
+    myChart.setOption(option);
+  }
+
+  function randomNum(minNum,maxNum){
+    switch(arguments.length){
+      case 1:
+        return parseInt(Math.random()*minNum+1,10);
+      case 2:
+        return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10);
+      default:
+        return 0;
+    }
+  }
+
+  // 定时添加数据
+  setInterval(function() {
+    // 更新图表实时数值
+    let date = new Date();
+    let time = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    if (timeLine.length > 8) {
+      timeLine.shift();
+      waterTempList.shift();
+      phList.shift();
+      turbidityList.shift();
+      waterLevelList.shift();
+      oxygenList.shift();
+    }
+    timeLine.push(time);
+    phList.push(randomNum(7, 9));
+    waterTempList.push(randomNum(20, 22));
+    turbidityList.push(randomNum(35, 40));
+    waterLevelList.push(randomNum(20, 25));
+    oxygenList.push(randomNum(20, 25) / 10);
+    // 刷新图表
+    myChart.setOption(option);
+    console.log("数据更新");
+  }, 3000)
+
+  console.log("user info:");
+  let userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+  let authorization = "Bearer " + window.localStorage.getItem("authorization")
+  let boxNo = "300219050084";
+  let apiUrl = "http://fbcs101.fbox360.com/api/";
+  let type = 0;
+  let value = 1;
+  let shiroToken = userInfo.shiroToken;
+  $('.equip-start').on("click",function(e) {
+    let equipName = "远程_" + $(this).prev()[0].innerText + "_启动开关";
+    $.ajax({
+      type: "POST",
+      url: "http://182.254.148.104:8082/equip/setEquipValue",
+      dataType: "json",
+      data: JSON.stringify({
+        authorization: authorization,
+        apiUrl: apiUrl,
+        boxNo: boxNo,
+        name: equipName,
+        type: type,
+        value: value
+      }),
+      headers: {
+        'Content-Type':'application/json;charset=utf8',
+        'Authorization': shiroToken
+      },
+      success: function(e) {
+        console.log(e)
+      },
+      error: function(e) {
+        console.log(e)
+      }
+    })
+  })
+  $('.equip-stop').on("click",function(e) {
+    let equipName = "远程_" + $(this).prev().prev()[0].innerText + "_停止开关";
+    $.ajax({
+      type: "POST",
+      url: "http://182.254.148.104:8082/equip/setEquipValue",
+      dataType: "json",
+      data: JSON.stringify({
+        authorization: authorization,
+        apiUrl: apiUrl,
+        boxNo: boxNo,
+        name: equipName,
+        type: type,
+        value: value
+      }),
+      headers: {
+        'Content-Type':'application/json;charset=utf8',
+        'Authorization': shiroToken
+      },
+      success: function(e) {
+        console.log(e)
+      },
+      error: function(e) {
+        console.log(e)
+      }
+    })
+  })
+</script>
 
 </html>

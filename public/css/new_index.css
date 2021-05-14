@@ -68,7 +68,7 @@
     display: inline-block;
     width: 45%;
     height: 100%;
-    background-image: url(../img/illness_pic.png);
+    /*background-image: url(../img/illness_pic.png);*/
     background-size: 100% 100%;
 }
 .prevent {
@@ -83,7 +83,7 @@
     color: #0EFCFF;
     margin-top: .5vw;
     margin: .6vw .2vw .2vw .5vw;
-    height: 100px;
+    height: 200px;
 }
 .symptom_title .prevent_title {
     font-size: .1vw;
@@ -717,6 +717,29 @@
 #site-list ul > li:hover {
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
 }
+
+/* 控制列表 */
+#control-list ul {
+  display: flex;
+}
+#control-list li {
+  margin-left: 20px;
+  /*display: inline;*/
+}
+#control-list .img-box img {
+  width: 250px;
+  height: 180px;
+}
+#control-list .state {
+  /*background: #0a76a4;*/
+  /*width: 250px;*/
+  float: right;
+}
+#control-list span {
+  color: white;
+  padding-right: 10px;
+}
+
 
 /* 数据日志over--- */
 
